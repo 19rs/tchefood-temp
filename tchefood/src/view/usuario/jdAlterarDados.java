@@ -19,10 +19,6 @@ import static view.usuario.jdGerenciarUsuario.JTConsulta;
  */
 public class jdAlterarDados extends javax.swing.JDialog {
 
-    private boolean oknome = false;
-    private boolean okpapel = false;
-    private boolean oktelefone = false;
-
     /**
      * Creates new form jdAlterarDados
      */
@@ -50,7 +46,7 @@ public class jdAlterarDados extends javax.swing.JDialog {
         txtAlterarusuarioPapel = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jbAlterar = new javax.swing.JButton();
-        txtAlterarusuarioTelefone = new javax.swing.JFormattedTextField();
+        txtAlterarusuarioTelefone = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Atualizar Usuarios");
@@ -68,9 +64,21 @@ public class jdAlterarDados extends javax.swing.JDialog {
             }
         });
 
+        txtAlterarusuarioEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtAlterarusuarioEmailKeyReleased(evt);
+            }
+        });
+
         jLabel2.setText("Email:");
 
         jLabel3.setText("Senha:");
+
+        txtAlterarusuarioSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtAlterarusuarioSenhaKeyReleased(evt);
+            }
+        });
 
         jLabel4.setText("Papel:");
 
@@ -94,11 +102,6 @@ public class jdAlterarDados extends javax.swing.JDialog {
             }
         });
 
-        txtAlterarusuarioTelefone.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtAlterarusuarioTelefoneFocusLost(evt);
-            }
-        });
         txtAlterarusuarioTelefone.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtAlterarusuarioTelefoneKeyReleased(evt);
@@ -148,7 +151,7 @@ public class jdAlterarDados extends javax.swing.JDialog {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtAlterarusuarioTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jbAlterar)
                 .addGap(24, 24, 24))
         );
@@ -197,32 +200,46 @@ public class jdAlterarDados extends javax.swing.JDialog {
 
     }//GEN-LAST:event_txtAlterarusuarioPapelFocusLost
 
-    private void txtAlterarusuarioTelefoneFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAlterarusuarioTelefoneFocusLost
-        // TODO add your handling code here:
 
-    }//GEN-LAST:event_txtAlterarusuarioTelefoneFocusLost
 
     private void txtAlterarusuarioNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlterarusuarioNomeKeyReleased
         // TODO add your handling code here:
-
-        btnEnable("[a-zA-Z]+", txtAlterarusuarioNome);
-
-
+  btnEnable("[a-zA-Z]+", txtAlterarusuarioNome);
+      
     }//GEN-LAST:event_txtAlterarusuarioNomeKeyReleased
 
     private void txtAlterarusuarioPapelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlterarusuarioPapelKeyReleased
         // TODO add your handling code here:
         btnEnable("[a-zA-Z]+", txtAlterarusuarioPapel);
-
     }//GEN-LAST:event_txtAlterarusuarioPapelKeyReleased
+
+    private void txtAlterarusuarioEmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlterarusuarioEmailKeyReleased
+        // TODO add your handling code here:
+     
+       if(txtAlterarusuarioEmail.getText().isEmpty()){
+           jbAlterar.setEnabled(false);
+       }else{
+           jbAlterar.setEnabled(true);
+       }
+    }//GEN-LAST:event_txtAlterarusuarioEmailKeyReleased
+
+    private void txtAlterarusuarioSenhaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlterarusuarioSenhaKeyReleased
+        // TODO add your handling code here:
+       if(txtAlterarusuarioSenha.getText().isEmpty()){
+           jbAlterar.setEnabled(false);
+       }else{
+           jbAlterar.setEnabled(true);
+       }
+        
+
+    }//GEN-LAST:event_txtAlterarusuarioSenhaKeyReleased
 
     private void txtAlterarusuarioTelefoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlterarusuarioTelefoneKeyReleased
         // TODO add your handling code here:
-
           btnEnable("[0-9]+", txtAlterarusuarioTelefone);
     }//GEN-LAST:event_txtAlterarusuarioTelefoneKeyReleased
 
-    private void btnEnable(String regex, JTextField abc) {
+   private void btnEnable(String regex, JTextField abc) {
         String tx = abc.getText();
         if (tx.matches(regex)) {
             abc.setForeground(Color.black);
@@ -235,7 +252,8 @@ public class jdAlterarDados extends javax.swing.JDialog {
         }
     }
 
-  
+    
+
     /**
      * @param args the command line arguments
      */
@@ -289,6 +307,6 @@ public class jdAlterarDados extends javax.swing.JDialog {
     public static javax.swing.JTextField txtAlterarusuarioNome;
     public static javax.swing.JTextField txtAlterarusuarioPapel;
     public static javax.swing.JTextField txtAlterarusuarioSenha;
-    public static javax.swing.JFormattedTextField txtAlterarusuarioTelefone;
+    public static javax.swing.JTextField txtAlterarusuarioTelefone;
     // End of variables declaration//GEN-END:variables
 }

@@ -19,6 +19,7 @@ import org.jdesktop.swingx.prompt.PromptSupport;
  */
 public class jdcadastrarUsuario extends javax.swing.JDialog {
 
+
     /**
      * Creates new form jdcadastrarUsuario
      */
@@ -47,9 +48,10 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         jbSalvar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        txtCadastrarusuarioTelefone = new javax.swing.JFormattedTextField();
+        txtCadastrarusuarioTelefone = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Novo Usuario");
         addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
@@ -72,6 +74,18 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
         });
 
         jLabel2.setText("Email:");
+
+        txtCadastrarusuarioEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCadastrarusuarioEmailKeyReleased(evt);
+            }
+        });
+
+        txtCadastrarusuarioSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCadastrarusuarioSenhaKeyReleased(evt);
+            }
+        });
 
         jLabel3.setText("Senha:");
 
@@ -106,11 +120,6 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
             }
         });
 
-        txtCadastrarusuarioTelefone.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtCadastrarusuarioTelefoneFocusLost(evt);
-            }
-        });
         txtCadastrarusuarioTelefone.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtCadastrarusuarioTelefoneKeyReleased(evt);
@@ -138,7 +147,7 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
                         .addComponent(jbSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtCadastrarusuarioTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE))
+                    .addComponent(txtCadastrarusuarioTelefone))
                 .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
@@ -164,14 +173,14 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtCadastrarusuarioTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbSalvar)
                     .addComponent(jButton2))
                 .addGap(20, 20, 20))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtCadastrarusuarioEmail, txtCadastrarusuarioNome, txtCadastrarusuarioPapel, txtCadastrarusuarioSenha, txtCadastrarusuarioTelefone});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtCadastrarusuarioEmail, txtCadastrarusuarioNome, txtCadastrarusuarioPapel, txtCadastrarusuarioSenha});
 
         PromptSupport.setPrompt("Insira o nome ...", txtCadastrarusuarioNome);
         PromptSupport.setFocusBehavior(PromptSupport.FocusBehavior.SHOW_PROMPT, txtCadastrarusuarioNome);
@@ -181,8 +190,6 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
         PromptSupport.setFocusBehavior(PromptSupport.FocusBehavior.SHOW_PROMPT, txtCadastrarusuarioSenha);
         PromptSupport.setPrompt("Insira o acesso ...", txtCadastrarusuarioPapel);
         PromptSupport.setFocusBehavior(PromptSupport.FocusBehavior.SHOW_PROMPT, txtCadastrarusuarioPapel);
-        PromptSupport.setPrompt("Insira o telefone ...", txtCadastrarusuarioTelefone);
-        PromptSupport.setFocusBehavior(PromptSupport.FocusBehavior.SHOW_PROMPT, txtCadastrarusuarioTelefone);
 
         pack();
         setLocationRelativeTo(null);
@@ -191,12 +198,7 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
         // TODO add your handling code here:
 
-        if ((txtCadastrarusuarioNome.getText().isEmpty() || txtCadastrarusuarioEmail.getText().isEmpty()) || txtCadastrarusuarioPapel.getText().isEmpty()
-                || txtCadastrarusuarioSenha.getText().isEmpty() || txtCadastrarusuarioTelefone.getText().isEmpty()) {
-
-            JOptionPane.showMessageDialog(this, "Erro! Preencha os Campos");
-
-        } else {
+       
             ModelUsuario a = new ModelUsuario();
             a.setNome(txtCadastrarusuarioNome.getText());
             a.setEmail(txtCadastrarusuarioEmail.getText());
@@ -208,12 +210,10 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
                 DAO.DAOUsuario.salvar(a);
                 JOptionPane.showMessageDialog(this, "Salvo com Sucesso!");
                 this.dispose();
-            } catch (SQLException ex) {
-                Logger.getLogger(jdcadastrarUsuario.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
+            } catch (SQLException | ClassNotFoundException ex) {
                 Logger.getLogger(jdcadastrarUsuario.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        
 
 
     }//GEN-LAST:event_jbSalvarActionPerformed
@@ -235,45 +235,57 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
 
     }//GEN-LAST:event_txtCadastrarusuarioPapelFocusLost
 
-    private void txtCadastrarusuarioTelefoneFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioTelefoneFocusLost
-
-    }//GEN-LAST:event_txtCadastrarusuarioTelefoneFocusLost
-
     private void formInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_formInputMethodTextChanged
 
     }//GEN-LAST:event_formInputMethodTextChanged
+   private boolean b;
+   private boolean a;
+   private boolean c;
+   private boolean d;
+   private boolean e;
+
 
     private void txtCadastrarusuarioNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioNomeKeyReleased
 
-          if(adawd("[a-zA-Z]+", txtCadastrarusuarioNome)){
-            jbSalvar.setEnabled(true);
-        }else{
-            jbSalvar.setEnabled(false);
-        }
-      
+        a = adawd("[a-zA-Z]+", txtCadastrarusuarioNome);
+        teste();
     }//GEN-LAST:event_txtCadastrarusuarioNomeKeyReleased
 
     private void txtCadastrarusuarioPapelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioPapelKeyReleased
         // TODO add your handling code here:
-
-       
-        if(adawd("[a-zA-Z]+", txtCadastrarusuarioPapel)){
-            jbSalvar.setEnabled(true);
-        }else{
-            jbSalvar.setEnabled(false);
-        }
+        b = adawd("[a-zA-Z]+", txtCadastrarusuarioPapel);
+        teste();
     }//GEN-LAST:event_txtCadastrarusuarioPapelKeyReleased
 
-    private void txtCadastrarusuarioTelefoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioTelefoneKeyReleased
+    private void txtCadastrarusuarioEmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioEmailKeyReleased
         // TODO add your handling code here:
+        d = !txtCadastrarusuarioEmail.getText().isEmpty();
+          teste();
+        
+    }//GEN-LAST:event_txtCadastrarusuarioEmailKeyReleased
 
-       if( adawd("[0-9]+", txtCadastrarusuarioTelefone)){
-           jbSalvar.setEnabled(true);
-       }else{
-           jbSalvar.setEnabled(false);
-       }
+    private void txtCadastrarusuarioSenhaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioSenhaKeyReleased
+        // TODO add your handling code here:
+       e = !txtCadastrarusuarioSenha.getText().isEmpty();
+         teste();
+    }//GEN-LAST:event_txtCadastrarusuarioSenhaKeyReleased
 
+    private void txtCadastrarusuarioTelefoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioTelefoneKeyReleased
+       
+               c = adawd("[0-9]+", txtCadastrarusuarioTelefone);
+        teste();
+        
+        
     }//GEN-LAST:event_txtCadastrarusuarioTelefoneKeyReleased
+
+    private void teste() {
+        if (a && b && c && d && e) {
+            jbSalvar.setEnabled(true);
+        } else {
+            jbSalvar.setEnabled(false);
+        }
+
+    }
 
     private boolean adawd(String regex, JTextField abc) {
 
@@ -289,7 +301,6 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
         }
 
     }
-
 
     /**
      * @param args the command line arguments
@@ -345,6 +356,6 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
     private javax.swing.JTextField txtCadastrarusuarioNome;
     private javax.swing.JTextField txtCadastrarusuarioPapel;
     private javax.swing.JTextField txtCadastrarusuarioSenha;
-    private javax.swing.JFormattedTextField txtCadastrarusuarioTelefone;
+    public static javax.swing.JTextField txtCadastrarusuarioTelefone;
     // End of variables declaration//GEN-END:variables
 }

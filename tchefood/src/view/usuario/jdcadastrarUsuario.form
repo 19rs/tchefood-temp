@@ -3,6 +3,7 @@
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="title" type="java.lang.String" value="Novo Usuario"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -44,7 +45,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jButton2" min="-2" pref="75" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="txtCadastrarusuarioTelefone" alignment="0" pref="233" max="32767" attributes="0"/>
+                  <Component id="txtCadastrarusuarioTelefone" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
           </Group>
@@ -72,8 +73,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="txtCadastrarusuarioTelefone" linkSize="1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+              <Component id="txtCadastrarusuarioTelefone" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jbSalvar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -104,11 +105,17 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtCadastrarusuarioEmail">
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCadastrarusuarioEmailKeyReleased"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="PromptSupport.setPrompt(&quot;Insira o Email ...&quot;, txtCadastrarusuarioEmail);&#xa;  PromptSupport.setFocusBehavior(PromptSupport.FocusBehavior.SHOW_PROMPT, txtCadastrarusuarioEmail);"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="txtCadastrarusuarioSenha">
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCadastrarusuarioSenhaKeyReleased"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="PromptSupport.setPrompt(&quot;Insira a senha ...&quot;, txtCadastrarusuarioSenha);&#xa;  PromptSupport.setFocusBehavior(PromptSupport.FocusBehavior.SHOW_PROMPT, txtCadastrarusuarioSenha);"/>
       </AuxValues>
@@ -157,13 +164,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="txtCadastrarusuarioTelefone">
+    <Component class="javax.swing.JTextField" name="txtCadastrarusuarioTelefone">
       <Events>
-        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtCadastrarusuarioTelefoneFocusLost"/>
         <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCadastrarusuarioTelefoneKeyReleased"/>
       </Events>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="PromptSupport.setPrompt(&quot;Insira o telefone ...&quot;, txtCadastrarusuarioTelefone);&#xa;  PromptSupport.setFocusBehavior(PromptSupport.FocusBehavior.SHOW_PROMPT, txtCadastrarusuarioTelefone);"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
       </AuxValues>
     </Component>
   </SubComponents>

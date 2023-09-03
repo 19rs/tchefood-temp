@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import view.JFRMenu;
 import static view.usuario.jdAlterarDados.*;
+import static view.usuario.jdcadastrarUsuario.txtCadastrarusuarioTelefone;
 
 /**
  *
