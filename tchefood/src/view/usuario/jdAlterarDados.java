@@ -5,6 +5,7 @@
 package view.usuario;
 
 import Model.ModelUsuario;
+import java.awt.Color;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +17,10 @@ import static view.usuario.jdGerenciarUsuario.JTConsulta;
  * @author adriano
  */
 public class jdAlterarDados extends javax.swing.JDialog {
+
+    private boolean oknome = false;
+    private boolean okpapel = false;
+    private boolean oktelefone = false;
 
     /**
      * Creates new form jdAlterarDados
@@ -43,13 +48,24 @@ public class jdAlterarDados extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         txtAlterarusuarioPapel = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        txtAlterarusuarioTelefone = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jbAlterar = new javax.swing.JButton();
+        txtAlterarusuarioTelefone = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Atualizar Usuarios");
 
         jLabel1.setText("Nome:");
+
+        txtAlterarusuarioNome.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtAlterarusuarioNomeFocusLost(evt);
+            }
+        });
+        txtAlterarusuarioNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtAlterarusuarioNomeKeyReleased(evt);
+            }
+        });
 
         jLabel2.setText("Email:");
 
@@ -57,12 +73,34 @@ public class jdAlterarDados extends javax.swing.JDialog {
 
         jLabel4.setText("Papel:");
 
+        txtAlterarusuarioPapel.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtAlterarusuarioPapelFocusLost(evt);
+            }
+        });
+        txtAlterarusuarioPapel.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtAlterarusuarioPapelKeyReleased(evt);
+            }
+        });
+
         jLabel5.setText("Telefone:");
 
-        jButton1.setText("Alterar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jbAlterar.setText("Alterar");
+        jbAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jbAlterarActionPerformed(evt);
+            }
+        });
+
+        txtAlterarusuarioTelefone.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtAlterarusuarioTelefoneFocusLost(evt);
+            }
+        });
+        txtAlterarusuarioTelefone.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtAlterarusuarioTelefoneKeyReleased(evt);
             }
         });
 
@@ -72,99 +110,163 @@ public class jdAlterarDados extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtAlterarusuarioNome, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtAlterarusuarioEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtAlterarusuarioSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtAlterarusuarioTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtAlterarusuarioPapel, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jbAlterar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtAlterarusuarioNome, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtAlterarusuarioEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtAlterarusuarioSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtAlterarusuarioPapel, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtAlterarusuarioTelefone))
                 .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtAlterarusuarioNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtAlterarusuarioEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtAlterarusuarioSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtAlterarusuarioPapel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtAlterarusuarioTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addGap(30, 30, 30))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtAlterarusuarioNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtAlterarusuarioEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtAlterarusuarioSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtAlterarusuarioPapel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtAlterarusuarioTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(jbAlterar)
+                .addGap(24, 24, 24))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
-         Model.ModelUsuario a = new ModelUsuario();
-            int codigo = (int) (JTConsulta.getValueAt(JTConsulta.getSelectedRow(), 0));
- 
-            a.setId(codigo);
+    private void jbAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAlterarActionPerformed
 
-            a.setNome(txtAlterarusuarioNome.getText());
+        Model.ModelUsuario a = new ModelUsuario();
+        int codigo = (int) (JTConsulta.getValueAt(JTConsulta.getSelectedRow(), 0));
 
-      
-            a.setEmail(txtAlterarusuarioEmail.getText());
+        a.setId(codigo);
 
-            
-            a.setSenha(txtAlterarusuarioSenha.getText());
+        a.setNome(txtAlterarusuarioNome.getText());
 
-          
-            a.setPapel(txtAlterarusuarioPapel.getText());
+        a.setEmail(txtAlterarusuarioEmail.getText());
 
-          
-            a.setTelefone(txtAlterarusuarioTelefone.getText());
+        a.setSenha(txtAlterarusuarioSenha.getText());
 
+        a.setPapel(txtAlterarusuarioPapel.getText());
+
+        a.setTelefone(txtAlterarusuarioTelefone.getText());
 
         try {
             DAO.DAOUsuario.update(a);
             JOptionPane.showMessageDialog(this, "Atualizado com Sucesso!");
             this.dispose();
-        } catch (SQLException ex) {
-            Logger.getLogger(jdAlterarDados.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(jdAlterarDados.class.getName()).log(Level.SEVERE, null, ex);
         }
-            System.out.println("Atualizado com sucesso");
+
+
+    }//GEN-LAST:event_jbAlterarActionPerformed
+
+    private void txtAlterarusuarioNomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAlterarusuarioNomeFocusLost
+        // TODO add your handling code here:
+
+
+    }//GEN-LAST:event_txtAlterarusuarioNomeFocusLost
+
+    private void txtAlterarusuarioPapelFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAlterarusuarioPapelFocusLost
+        // TODO add your handling code here:
+
+
+    }//GEN-LAST:event_txtAlterarusuarioPapelFocusLost
+
+    private void txtAlterarusuarioTelefoneFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAlterarusuarioTelefoneFocusLost
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_txtAlterarusuarioTelefoneFocusLost
+
+    private void txtAlterarusuarioNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlterarusuarioNomeKeyReleased
+        // TODO add your handling code here:
+
+      btnEnableNome();
       
-    }//GEN-LAST:event_jButton1ActionPerformed
+
+    }//GEN-LAST:event_txtAlterarusuarioNomeKeyReleased
+
+    private void txtAlterarusuarioPapelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlterarusuarioPapelKeyReleased
+        // TODO add your handling code here:
+
+      btnEnablepapel();
+    }//GEN-LAST:event_txtAlterarusuarioPapelKeyReleased
+
+    private void txtAlterarusuarioTelefoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlterarusuarioTelefoneKeyReleased
+        // TODO add your handling code here:
 
       
+        btnEnableNumero();
+    }//GEN-LAST:event_txtAlterarusuarioTelefoneKeyReleased
     
+    
+    private void btnEnableNome() {
+         String tx = txtAlterarusuarioNome.getText();
+                 if (tx.matches("[a-zA-Z]+")) {
+                txtAlterarusuarioNome.setForeground(Color.black);
+               jbAlterar.setEnabled(true);
+
+            } else {
+                txtAlterarusuarioNome.setForeground(Color.red);
+                JOptionPane.showMessageDialog(this, "Apenas letras são permitidas");
+                txtAlterarusuarioNome.requestFocus();
+                jbAlterar.setEnabled(false);
+            }
+    }
+    
+    private void btnEnablepapel() {
+         String tx = txtAlterarusuarioPapel.getText();
+                 if (tx.matches("[a-zA-Z]+")) {
+                txtAlterarusuarioPapel.setForeground(Color.black);
+               jbAlterar.setEnabled(true);
+
+            } else {
+                txtAlterarusuarioPapel.setForeground(Color.red);
+                JOptionPane.showMessageDialog(this, "Apenas letras são permitidas");
+                txtAlterarusuarioPapel.requestFocus();
+                jbAlterar.setEnabled(false);
+            }
+    }
+    
+    
+    
+     private void btnEnableNumero() {
+         String tx = txtAlterarusuarioTelefone.getText();
+                 if (tx.matches("[0-9]+")) {
+                txtAlterarusuarioTelefone.setForeground(Color.black);
+               jbAlterar.setEnabled(true);
+
+            } else {
+                txtAlterarusuarioTelefone.setForeground(Color.red);
+                JOptionPane.showMessageDialog(this, "Apenas numeros são permitidas");
+                txtAlterarusuarioTelefone.requestFocus();
+                jbAlterar.setEnabled(false);
+            }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -208,16 +310,16 @@ public class jdAlterarDados extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private static javax.swing.JButton jbAlterar;
     public static javax.swing.JTextField txtAlterarusuarioEmail;
     public static javax.swing.JTextField txtAlterarusuarioNome;
     public static javax.swing.JTextField txtAlterarusuarioPapel;
     public static javax.swing.JTextField txtAlterarusuarioSenha;
-    public static javax.swing.JTextField txtAlterarusuarioTelefone;
+    public static javax.swing.JFormattedTextField txtAlterarusuarioTelefone;
     // End of variables declaration//GEN-END:variables
 }

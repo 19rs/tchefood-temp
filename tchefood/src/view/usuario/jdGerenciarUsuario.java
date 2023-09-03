@@ -9,6 +9,7 @@ import org.jdesktop.swingx.prompt.PromptSupport;
 import static DAO.DAOUsuario.isIdValido;
 import Model.ModelUsuario;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -43,7 +44,7 @@ public class jdGerenciarUsuario extends javax.swing.JDialog {
         JTConsulta = new javax.swing.JTable();
         jbExcluir = new javax.swing.JButton();
         txtPesquisar = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        jbAlterar = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -85,10 +86,11 @@ public class jdGerenciarUsuario extends javax.swing.JDialog {
             }
         });
 
-        jButton2.setText("Alterar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jbAlterar.setText("Alterar");
+        jbAlterar.setEnabled(false);
+        jbAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jbAlterarActionPerformed(evt);
             }
         });
 
@@ -111,7 +113,7 @@ public class jdGerenciarUsuario extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(jbAlterar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbExcluir))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 867, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -124,7 +126,7 @@ public class jdGerenciarUsuario extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbExcluir)
                     .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2)
+                    .addComponent(jbAlterar)
                     .addComponent(jButton3))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -166,7 +168,7 @@ public class jdGerenciarUsuario extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jbExcluirActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jbAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAlterarActionPerformed
         // TODO add your handling code here:
 
         jdAlterarDados a = new jdAlterarDados(null, true);
@@ -186,29 +188,45 @@ public class jdGerenciarUsuario extends javax.swing.JDialog {
 
         a.setVisible(true);
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jbAlterarActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        jbExcluir.setEnabled(true);
-
-        DefaultTableModel modelo = (DefaultTableModel) JTConsulta.getModel();
-
-        modelo.setNumRows(0);
-
         try {
-            for (Model.ModelUsuario m : DAO.DAOUsuario.consultar(txtPesquisar.getText())) {
-                modelo.addRow(new Object[]{
-                    m.getId(), m.getNome(), m.getEmail(), m.getSenha(), m.getPapel(), m.getTelefone(), m.getDataCriacao(), m.getDataAtualizacao()
+            // TODO add your handling code here:
 
-                });
+            String a = txtPesquisar.getText();
+
+            ArrayList<ModelUsuario> dwd = DAO.DAOUsuario.consultar(a);
+
+            if (dwd.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Nao Ha usuarios cadastrados");
+                this.dispose();
+            } else {
+
+                jbAlterar.setEnabled(true);
+
+                jbExcluir.setEnabled(true);
+
+                DefaultTableModel modelo = (DefaultTableModel) JTConsulta.getModel();
+
+                modelo.setNumRows(0);
+
+                try {
+                    for (Model.ModelUsuario m : DAO.DAOUsuario.consultar(a)) {
+                        modelo.addRow(new Object[]{
+                            m.getId(), m.getNome(), m.getEmail(), m.getSenha(), m.getPapel(), m.getTelefone(), m.getDataCriacao(), m.getDataAtualizacao()
+
+                        });
+                    }
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(JFRMenu.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                JTConsulta.setModel(modelo);
             }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(JFRMenu.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(JFRMenu.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(jdGerenciarUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
-        JTConsulta.setModel(modelo);
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
@@ -255,9 +273,9 @@ public class jdGerenciarUsuario extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JTable JTConsulta;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbAlterar;
     private javax.swing.JButton jbExcluir;
     private javax.swing.JTextField txtPesquisar;
     // End of variables declaration//GEN-END:variables

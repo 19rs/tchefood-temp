@@ -5,16 +5,22 @@
 package view.usuario;
 
 import Model.ModelUsuario;
+import java.awt.Color;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import org.jdesktop.swingx.prompt.PromptSupport;
 
 /**
  *
  * @author Aluno TDS
  */
 public class jdcadastrarUsuario extends javax.swing.JDialog {
+
+    boolean oknome = false;
+    boolean okpapel = false;
+    boolean oktelefone = false;
 
     /**
      * Creates new form jdcadastrarUsuario
@@ -41,27 +47,58 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         txtCadastrarusuarioPapel = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtCadastrarusuarioTelefone = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jbSalvar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        txtCadastrarusuarioTelefone = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                formInputMethodTextChanged(evt);
+            }
+        });
 
         jLabel1.setText("Nome:");
+
+        txtCadastrarusuarioNome.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCadastrarusuarioNomeFocusLost(evt);
+            }
+        });
+        txtCadastrarusuarioNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCadastrarusuarioNomeKeyReleased(evt);
+            }
+        });
 
         jLabel2.setText("Email:");
 
         jLabel3.setText("Senha:");
 
+        txtCadastrarusuarioPapel.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCadastrarusuarioPapelFocusLost(evt);
+            }
+        });
+        txtCadastrarusuarioPapel.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCadastrarusuarioPapelKeyReleased(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Gadugi", 0, 12)); // NOI18N
         jLabel4.setText("Papel:");
 
         jLabel5.setText("Telefone:");
 
-        jButton1.setText("Salvar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jbSalvar.setText("Salvar");
+        jbSalvar.setEnabled(false);
+        jbSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jbSalvarActionPerformed(evt);
             }
         });
 
@@ -72,84 +109,95 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
             }
         });
 
+        txtCadastrarusuarioTelefone.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCadastrarusuarioTelefoneFocusLost(evt);
+            }
+        });
+        txtCadastrarusuarioTelefone.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCadastrarusuarioTelefoneKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtCadastrarusuarioNome, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtCadastrarusuarioEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtCadastrarusuarioSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtCadastrarusuarioPapel, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                    .addComponent(txtCadastrarusuarioPapel)
+                    .addComponent(txtCadastrarusuarioSenha)
+                    .addComponent(txtCadastrarusuarioEmail)
+                    .addComponent(txtCadastrarusuarioNome)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(24, 24, 24)
-                        .addComponent(jLabel5)
+                        .addComponent(jbSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtCadastrarusuarioTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(30, Short.MAX_VALUE))
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCadastrarusuarioTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE))
+                .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(20, 20, 20)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCadastrarusuarioNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCadastrarusuarioEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCadastrarusuarioSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCadastrarusuarioPapel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCadastrarusuarioTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtCadastrarusuarioNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtCadastrarusuarioEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtCadastrarusuarioSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtCadastrarusuarioPapel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtCadastrarusuarioTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
+                    .addComponent(jbSalvar)
                     .addComponent(jButton2))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtCadastrarusuarioEmail, txtCadastrarusuarioNome, txtCadastrarusuarioPapel, txtCadastrarusuarioSenha, txtCadastrarusuarioTelefone});
+
+        PromptSupport.setPrompt("Insira o nome ...", txtCadastrarusuarioNome);
+        PromptSupport.setFocusBehavior(PromptSupport.FocusBehavior.SHOW_PROMPT, txtCadastrarusuarioNome);
+        PromptSupport.setPrompt("Insira o Email ...", txtCadastrarusuarioEmail);
+        PromptSupport.setFocusBehavior(PromptSupport.FocusBehavior.SHOW_PROMPT, txtCadastrarusuarioEmail);
+        PromptSupport.setPrompt("Insira a senha ...", txtCadastrarusuarioSenha);
+        PromptSupport.setFocusBehavior(PromptSupport.FocusBehavior.SHOW_PROMPT, txtCadastrarusuarioSenha);
+        PromptSupport.setPrompt("Insira o acesso ...", txtCadastrarusuarioPapel);
+        PromptSupport.setFocusBehavior(PromptSupport.FocusBehavior.SHOW_PROMPT, txtCadastrarusuarioPapel);
+        PromptSupport.setPrompt("Insira o telefone ...", txtCadastrarusuarioTelefone);
+        PromptSupport.setFocusBehavior(PromptSupport.FocusBehavior.SHOW_PROMPT, txtCadastrarusuarioTelefone);
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
         // TODO add your handling code here:
 
         if ((txtCadastrarusuarioNome.getText().isEmpty() || txtCadastrarusuarioEmail.getText().isEmpty()) || txtCadastrarusuarioPapel.getText().isEmpty()
                 || txtCadastrarusuarioSenha.getText().isEmpty() || txtCadastrarusuarioTelefone.getText().isEmpty()) {
 
-            JOptionPane.showMessageDialog(this, "Erro!");
+            JOptionPane.showMessageDialog(this, "Erro! Preencha os Campos");
 
         } else {
             ModelUsuario a = new ModelUsuario();
@@ -158,20 +206,20 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
             a.setSenha(txtCadastrarusuarioSenha.getText());
             a.setPapel(txtCadastrarusuarioPapel.getText());
             a.setTelefone(txtCadastrarusuarioTelefone.getText());
-           
+
             try {
                 DAO.DAOUsuario.salvar(a);
-                JOptionPane.showMessageDialog(this,"Salvo com Sucesso!");
+                JOptionPane.showMessageDialog(this, "Salvo com Sucesso!");
                 this.dispose();
             } catch (SQLException ex) {
                 Logger.getLogger(jdcadastrarUsuario.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(jdcadastrarUsuario.class.getName()).log(Level.SEVERE, null, ex);
-            } 
+            }
         }
 
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jbSalvarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -181,6 +229,101 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
         txtCadastrarusuarioSenha.setText(null);
         txtCadastrarusuarioTelefone.setText(null);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txtCadastrarusuarioNomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioNomeFocusLost
+        // TODO add your handling code here:
+
+
+    }//GEN-LAST:event_txtCadastrarusuarioNomeFocusLost
+
+    private void txtCadastrarusuarioPapelFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioPapelFocusLost
+
+
+    }//GEN-LAST:event_txtCadastrarusuarioPapelFocusLost
+
+    private void txtCadastrarusuarioTelefoneFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioTelefoneFocusLost
+        // TODO add your handling code here:
+
+
+    }//GEN-LAST:event_txtCadastrarusuarioTelefoneFocusLost
+
+    private void formInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_formInputMethodTextChanged
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_formInputMethodTextChanged
+
+    private void txtCadastrarusuarioNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioNomeKeyReleased
+        // TODO add your handling code here:
+
+        String tx = txtCadastrarusuarioNome.getText();
+
+        if (!txtCadastrarusuarioNome.getText().isEmpty()) {
+
+            if (tx.matches("[a-zA-Z]+")) {
+                txtCadastrarusuarioNome.setForeground(Color.black);
+                oknome = true;
+
+            } else {
+                txtCadastrarusuarioNome.setForeground(Color.red);
+                JOptionPane.showMessageDialog(this, "Apenas letras são permitidas");
+
+                oknome = false;
+                txtCadastrarusuarioNome.requestFocus();
+            }
+        }
+        btnEnable();
+    }//GEN-LAST:event_txtCadastrarusuarioNomeKeyReleased
+
+    private void txtCadastrarusuarioPapelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioPapelKeyReleased
+        // TODO add your handling code here:
+
+        String tx = txtCadastrarusuarioPapel.getText();
+
+        if (!txtCadastrarusuarioPapel.getText().isEmpty()) {
+
+            if (tx.matches("[a-zA-Z]+")) {
+                txtCadastrarusuarioPapel.setForeground(Color.black);
+                okpapel = true;
+            } else {
+                txtCadastrarusuarioPapel.setForeground(Color.red);
+                JOptionPane.showMessageDialog(this, "Apenas letras são permitidas");
+                okpapel = false;
+                txtCadastrarusuarioPapel.requestFocus();
+            }
+        }
+
+        btnEnable();
+    }//GEN-LAST:event_txtCadastrarusuarioPapelKeyReleased
+
+    private void txtCadastrarusuarioTelefoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioTelefoneKeyReleased
+        // TODO add your handling code here:
+        String tx = txtCadastrarusuarioTelefone.getText();
+
+        if (!txtCadastrarusuarioTelefone.getText().isEmpty()) {
+
+            if (tx.matches("[0-9]+")) {
+                txtCadastrarusuarioTelefone.setForeground(Color.black);
+                oktelefone = true;
+            } else {
+                txtCadastrarusuarioTelefone.setForeground(Color.red);
+                JOptionPane.showMessageDialog(this, "Apenas numeros são permitidas");
+
+                oktelefone = false;
+                txtCadastrarusuarioTelefone.requestFocus();
+            }
+        }
+
+        btnEnable();
+    }//GEN-LAST:event_txtCadastrarusuarioTelefoneKeyReleased
+
+    public void btnEnable() {
+        if (oknome && okpapel && oktelefone) {
+            jbSalvar.setEnabled(true);
+
+        } else {
+            jbSalvar.setEnabled(false);
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -225,17 +368,17 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JButton jbSalvar;
     private javax.swing.JTextField txtCadastrarusuarioEmail;
     private javax.swing.JTextField txtCadastrarusuarioNome;
     private javax.swing.JTextField txtCadastrarusuarioPapel;
     private javax.swing.JTextField txtCadastrarusuarioSenha;
-    private javax.swing.JTextField txtCadastrarusuarioTelefone;
+    private javax.swing.JFormattedTextField txtCadastrarusuarioTelefone;
     // End of variables declaration//GEN-END:variables
 }
