@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import org.jdesktop.swingx.prompt.PromptSupport;
 
 /**
@@ -17,10 +18,6 @@ import org.jdesktop.swingx.prompt.PromptSupport;
  * @author Aluno TDS
  */
 public class jdcadastrarUsuario extends javax.swing.JDialog {
-
-    boolean oknome = false;
-    boolean okpapel = false;
-    boolean oktelefone = false;
 
     /**
      * Creates new form jdcadastrarUsuario
@@ -231,99 +228,68 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txtCadastrarusuarioNomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioNomeFocusLost
-        // TODO add your handling code here:
-
 
     }//GEN-LAST:event_txtCadastrarusuarioNomeFocusLost
 
     private void txtCadastrarusuarioPapelFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioPapelFocusLost
 
-
     }//GEN-LAST:event_txtCadastrarusuarioPapelFocusLost
 
     private void txtCadastrarusuarioTelefoneFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioTelefoneFocusLost
-        // TODO add your handling code here:
-
 
     }//GEN-LAST:event_txtCadastrarusuarioTelefoneFocusLost
 
     private void formInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_formInputMethodTextChanged
-        // TODO add your handling code here:
 
     }//GEN-LAST:event_formInputMethodTextChanged
 
     private void txtCadastrarusuarioNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioNomeKeyReleased
-        // TODO add your handling code here:
 
-        String tx = txtCadastrarusuarioNome.getText();
-
-        if (!txtCadastrarusuarioNome.getText().isEmpty()) {
-
-            if (tx.matches("[a-zA-Z]+")) {
-                txtCadastrarusuarioNome.setForeground(Color.black);
-                oknome = true;
-
-            } else {
-                txtCadastrarusuarioNome.setForeground(Color.red);
-                JOptionPane.showMessageDialog(this, "Apenas letras são permitidas");
-
-                oknome = false;
-                txtCadastrarusuarioNome.requestFocus();
-            }
+          if(adawd("[a-zA-Z]+", txtCadastrarusuarioNome)){
+            jbSalvar.setEnabled(true);
+        }else{
+            jbSalvar.setEnabled(false);
         }
-        btnEnable();
+      
     }//GEN-LAST:event_txtCadastrarusuarioNomeKeyReleased
 
     private void txtCadastrarusuarioPapelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioPapelKeyReleased
         // TODO add your handling code here:
 
-        String tx = txtCadastrarusuarioPapel.getText();
-
-        if (!txtCadastrarusuarioPapel.getText().isEmpty()) {
-
-            if (tx.matches("[a-zA-Z]+")) {
-                txtCadastrarusuarioPapel.setForeground(Color.black);
-                okpapel = true;
-            } else {
-                txtCadastrarusuarioPapel.setForeground(Color.red);
-                JOptionPane.showMessageDialog(this, "Apenas letras são permitidas");
-                okpapel = false;
-                txtCadastrarusuarioPapel.requestFocus();
-            }
+       
+        if(adawd("[a-zA-Z]+", txtCadastrarusuarioPapel)){
+            jbSalvar.setEnabled(true);
+        }else{
+            jbSalvar.setEnabled(false);
         }
-
-        btnEnable();
     }//GEN-LAST:event_txtCadastrarusuarioPapelKeyReleased
 
     private void txtCadastrarusuarioTelefoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioTelefoneKeyReleased
         // TODO add your handling code here:
-        String tx = txtCadastrarusuarioTelefone.getText();
 
-        if (!txtCadastrarusuarioTelefone.getText().isEmpty()) {
+       if( adawd("[0-9]+", txtCadastrarusuarioTelefone)){
+           jbSalvar.setEnabled(true);
+       }else{
+           jbSalvar.setEnabled(false);
+       }
 
-            if (tx.matches("[0-9]+")) {
-                txtCadastrarusuarioTelefone.setForeground(Color.black);
-                oktelefone = true;
-            } else {
-                txtCadastrarusuarioTelefone.setForeground(Color.red);
-                JOptionPane.showMessageDialog(this, "Apenas numeros são permitidas");
-
-                oktelefone = false;
-                txtCadastrarusuarioTelefone.requestFocus();
-            }
-        }
-
-        btnEnable();
     }//GEN-LAST:event_txtCadastrarusuarioTelefoneKeyReleased
 
-    public void btnEnable() {
-        if (oknome && okpapel && oktelefone) {
-            jbSalvar.setEnabled(true);
+    private boolean adawd(String regex, JTextField abc) {
 
+        String tx = abc.getText();
+        if (tx.matches(regex)) {
+            abc.setForeground(Color.black);
+            return true;
         } else {
-            jbSalvar.setEnabled(false);
+            abc.setForeground(Color.red);
+            abc.requestFocus();
+            return false;
+
         }
+
     }
+
 
     /**
      * @param args the command line arguments

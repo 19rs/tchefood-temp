@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import static view.usuario.jdGerenciarUsuario.JTConsulta;
 
 /**
@@ -204,69 +205,37 @@ public class jdAlterarDados extends javax.swing.JDialog {
     private void txtAlterarusuarioNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlterarusuarioNomeKeyReleased
         // TODO add your handling code here:
 
-      btnEnableNome();
-      
+        btnEnable("[a-zA-Z]+", txtAlterarusuarioNome);
+
 
     }//GEN-LAST:event_txtAlterarusuarioNomeKeyReleased
 
     private void txtAlterarusuarioPapelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlterarusuarioPapelKeyReleased
         // TODO add your handling code here:
+        btnEnable("[a-zA-Z]+", txtAlterarusuarioPapel);
 
-      btnEnablepapel();
     }//GEN-LAST:event_txtAlterarusuarioPapelKeyReleased
 
     private void txtAlterarusuarioTelefoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlterarusuarioTelefoneKeyReleased
         // TODO add your handling code here:
 
-      
-        btnEnableNumero();
+          btnEnable("[0-9]+", txtAlterarusuarioTelefone);
     }//GEN-LAST:event_txtAlterarusuarioTelefoneKeyReleased
-    
-    
-    private void btnEnableNome() {
-         String tx = txtAlterarusuarioNome.getText();
-                 if (tx.matches("[a-zA-Z]+")) {
-                txtAlterarusuarioNome.setForeground(Color.black);
-               jbAlterar.setEnabled(true);
 
-            } else {
-                txtAlterarusuarioNome.setForeground(Color.red);
-                JOptionPane.showMessageDialog(this, "Apenas letras são permitidas");
-                txtAlterarusuarioNome.requestFocus();
-                jbAlterar.setEnabled(false);
-            }
-    }
-    
-    private void btnEnablepapel() {
-         String tx = txtAlterarusuarioPapel.getText();
-                 if (tx.matches("[a-zA-Z]+")) {
-                txtAlterarusuarioPapel.setForeground(Color.black);
-               jbAlterar.setEnabled(true);
+    private void btnEnable(String regex, JTextField abc) {
+        String tx = abc.getText();
+        if (tx.matches(regex)) {
+            abc.setForeground(Color.black);
+            jbAlterar.setEnabled(true);
 
-            } else {
-                txtAlterarusuarioPapel.setForeground(Color.red);
-                JOptionPane.showMessageDialog(this, "Apenas letras são permitidas");
-                txtAlterarusuarioPapel.requestFocus();
-                jbAlterar.setEnabled(false);
-            }
-    }
-    
-    
-    
-     private void btnEnableNumero() {
-         String tx = txtAlterarusuarioTelefone.getText();
-                 if (tx.matches("[0-9]+")) {
-                txtAlterarusuarioTelefone.setForeground(Color.black);
-               jbAlterar.setEnabled(true);
-
-            } else {
-                txtAlterarusuarioTelefone.setForeground(Color.red);
-                JOptionPane.showMessageDialog(this, "Apenas numeros são permitidas");
-                txtAlterarusuarioTelefone.requestFocus();
-                jbAlterar.setEnabled(false);
-            }
+        } else {
+            abc.setForeground(Color.red);
+            abc.requestFocus();
+            jbAlterar.setEnabled(false);
+        }
     }
 
+  
     /**
      * @param args the command line arguments
      */
