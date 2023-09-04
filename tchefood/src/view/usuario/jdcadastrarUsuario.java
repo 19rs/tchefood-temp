@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import org.mindrot.jbcrypt.BCrypt;
 import org.jdesktop.swingx.prompt.PromptSupport;
 
 /**
@@ -60,6 +61,7 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Nome:");
 
         txtCadastrarusuarioNome.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -73,6 +75,7 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Email:");
 
         txtCadastrarusuarioEmail.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -87,6 +90,7 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Senha:");
 
         txtCadastrarusuarioPapel.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -100,11 +104,14 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Gadugi", 0, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setText("Papel:");
 
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setText("Telefone:");
 
+        jbSalvar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jbSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/check.png"))); // NOI18N
         jbSalvar.setText("Salvar");
         jbSalvar.setEnabled(false);
         jbSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -113,6 +120,8 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
             }
         });
 
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/clear.png"))); // NOI18N
         jButton2.setText("Limpar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,7 +140,7 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -143,12 +152,12 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
                     .addComponent(txtCadastrarusuarioEmail)
                     .addComponent(txtCadastrarusuarioNome)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jbSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jbSalvar)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2))
                     .addComponent(txtCadastrarusuarioTelefone))
-                .addGap(30, 30, 30))
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,6 +199,8 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
         PromptSupport.setFocusBehavior(PromptSupport.FocusBehavior.SHOW_PROMPT, txtCadastrarusuarioSenha);
         PromptSupport.setPrompt("Insira o acesso ...", txtCadastrarusuarioPapel);
         PromptSupport.setFocusBehavior(PromptSupport.FocusBehavior.SHOW_PROMPT, txtCadastrarusuarioPapel);
+        PromptSupport.setPrompt("Insira o telfone ...", txtCadastrarusuarioTelefone);
+        PromptSupport.setFocusBehavior(PromptSupport.FocusBehavior.SHOW_PROMPT, txtCadastrarusuarioTelefone);
 
         pack();
         setLocationRelativeTo(null);
@@ -198,11 +209,20 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
         // TODO add your handling code here:
 
+         String senhaOriginal = txtCadastrarusuarioSenha.getText();
+        
+        // Gere um salt aleatório (geralmente é armazenado junto com o hash)
+        String salt = BCrypt.gensalt();
+        
+        // Use o BCrypt para criar o hash da senha com o salt
+        String hashedPassword = BCrypt.hashpw(senhaOriginal, salt);
+        
+  
        
             ModelUsuario a = new ModelUsuario();
             a.setNome(txtCadastrarusuarioNome.getText());
             a.setEmail(txtCadastrarusuarioEmail.getText());
-            a.setSenha(txtCadastrarusuarioSenha.getText());
+            a.setSenha(hashedPassword);
             a.setPapel(txtCadastrarusuarioPapel.getText());
             a.setTelefone(txtCadastrarusuarioTelefone.getText());
 

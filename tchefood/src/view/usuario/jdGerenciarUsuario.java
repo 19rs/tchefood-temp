@@ -16,7 +16,6 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import view.JFRMenu;
 import static view.usuario.jdAlterarDados.*;
-import static view.usuario.jdcadastrarUsuario.txtCadastrarusuarioTelefone;
 
 /**
  *
@@ -79,6 +78,7 @@ public class jdGerenciarUsuario extends javax.swing.JDialog {
             JTConsulta.getColumnModel().getColumn(7).setResizable(false);
         }
 
+        jbExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/clean.png"))); // NOI18N
         jbExcluir.setText("Excluir");
         jbExcluir.setEnabled(false);
         jbExcluir.addActionListener(new java.awt.event.ActionListener() {
@@ -87,6 +87,7 @@ public class jdGerenciarUsuario extends javax.swing.JDialog {
             }
         });
 
+        jbAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/paper.png"))); // NOI18N
         jbAlterar.setText("Alterar");
         jbAlterar.setEnabled(false);
         jbAlterar.addActionListener(new java.awt.event.ActionListener() {
@@ -95,6 +96,7 @@ public class jdGerenciarUsuario extends javax.swing.JDialog {
             }
         });
 
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/search.png"))); // NOI18N
         jButton3.setText("Pesquisar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,9 +109,9 @@ public class jdGerenciarUsuario extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(txtPesquisar)
                         .addGap(18, 18, 18)
                         .addComponent(jButton3)
@@ -117,9 +119,12 @@ public class jdGerenciarUsuario extends javax.swing.JDialog {
                         .addComponent(jbAlterar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbExcluir))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 867, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 983, Short.MAX_VALUE))
+                .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton3, jbAlterar, jbExcluir});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -178,12 +183,12 @@ public class jdGerenciarUsuario extends javax.swing.JDialog {
 
         String nome = (String) JTConsulta.getValueAt(selectedRowIndex, 1);
         String email = (String) JTConsulta.getValueAt(selectedRowIndex, 2);
-        String senha = (String) JTConsulta.getValueAt(selectedRowIndex, 3);
+        //String senha = (String) JTConsulta.getValueAt(selectedRowIndex, 3);
         String papel = (String) JTConsulta.getValueAt(selectedRowIndex, 4);
         String telefone = (String) JTConsulta.getValueAt(selectedRowIndex, 5);
         txtAlterarusuarioNome.setText(nome);
         txtAlterarusuarioEmail.setText(email);
-        txtAlterarusuarioSenha.setText(senha);
+        txtAlterarusuarioSenha.setText(null);
         txtAlterarusuarioPapel.setText(papel);
         txtAlterarusuarioTelefone.setText(telefone);
 
@@ -239,23 +244,8 @@ public class jdGerenciarUsuario extends javax.swing.JDialog {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(jdGerenciarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(jdGerenciarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(jdGerenciarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(jdGerenciarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
         //</editor-fold>
+      
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {

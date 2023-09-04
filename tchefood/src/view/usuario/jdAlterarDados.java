@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import org.mindrot.jbcrypt.BCrypt;
 import static view.usuario.jdGerenciarUsuario.JTConsulta;
 
 /**
@@ -51,6 +52,7 @@ public class jdAlterarDados extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Atualizar Usuarios");
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Nome:");
 
         txtAlterarusuarioNome.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -70,9 +72,11 @@ public class jdAlterarDados extends javax.swing.JDialog {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Email:");
 
-        jLabel3.setText("Senha:");
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setText("Nova Senha:");
 
         txtAlterarusuarioSenha.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -80,6 +84,7 @@ public class jdAlterarDados extends javax.swing.JDialog {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setText("Papel:");
 
         txtAlterarusuarioPapel.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -93,9 +98,13 @@ public class jdAlterarDados extends javax.swing.JDialog {
             }
         });
 
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setText("Telefone:");
 
+        jbAlterar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jbAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/check.png"))); // NOI18N
         jbAlterar.setText("Alterar");
+        jbAlterar.setEnabled(false);
         jbAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbAlterarActionPerformed(evt);
@@ -113,20 +122,23 @@ public class jdAlterarDados extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jbAlterar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtAlterarusuarioNome, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtAlterarusuarioEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtAlterarusuarioSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtAlterarusuarioPapel, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtAlterarusuarioTelefone))
-                .addGap(30, 30, 30))
+                    .addComponent(txtAlterarusuarioNome)
+                    .addComponent(txtAlterarusuarioEmail)
+                    .addComponent(txtAlterarusuarioSenha)
+                    .addComponent(txtAlterarusuarioPapel)
+                    .addComponent(txtAlterarusuarioTelefone)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(50, Short.MAX_VALUE)
+                .addComponent(jbAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(69, 69, 69))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,7 +165,7 @@ public class jdAlterarDados extends javax.swing.JDialog {
                 .addComponent(txtAlterarusuarioTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jbAlterar)
-                .addGap(24, 24, 24))
+                .addGap(20, 20, 20))
         );
 
         pack();
@@ -165,13 +177,21 @@ public class jdAlterarDados extends javax.swing.JDialog {
         Model.ModelUsuario a = new ModelUsuario();
         int codigo = (int) (JTConsulta.getValueAt(JTConsulta.getSelectedRow(), 0));
 
+         String senhaOriginal = txtAlterarusuarioSenha.getText();
+        
+       
+        String salt = BCrypt.gensalt();
+        
+        // Use o BCrypt para criar o hash da senha com o salt
+        String hashedPassword = BCrypt.hashpw(senhaOriginal, salt);
+        
         a.setId(codigo);
 
         a.setNome(txtAlterarusuarioNome.getText());
 
         a.setEmail(txtAlterarusuarioEmail.getText());
 
-        a.setSenha(txtAlterarusuarioSenha.getText());
+        a.setSenha(hashedPassword);
 
         a.setPapel(txtAlterarusuarioPapel.getText());
 
