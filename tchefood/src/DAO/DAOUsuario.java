@@ -155,4 +155,28 @@ public class DAOUsuario {
 
 
     }
+            
+            
+            public static int getUsuarioId(int usuarioId) {
+        try {
+        ConexaoMYSQL conexaoMYSQL = new ConexaoMYSQL();
+        Connection con = conexaoMYSQL.obterConexao();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        int categoria = -1;
+
+        stmt = con.prepareStatement("SELECT id FROM tb_usuario WHERE id = ?");
+        stmt.setInt(1, usuarioId);
+        rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            categoria = rs.getInt("id");
+        }
+
+        return categoria;
+
+        } catch(Exception e6){
+            throw new RuntimeException(e6);
+        }
+    }
 }

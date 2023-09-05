@@ -10,7 +10,7 @@ public class ConexaoMYSQL {
 
     private String nomeServidor = "localhost";
     private String usuario = "root";
-    private String senha = "senac";
+    private String senha = "scar403";
     private String nomeBancoDados = "tchefooddb";
 
     public Connection obterConexao() throws ClassNotFoundException, SQLException {
