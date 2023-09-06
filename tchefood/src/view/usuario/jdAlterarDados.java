@@ -177,10 +177,8 @@ public class jdAlterarDados extends javax.swing.JDialog {
         Model.ModelUsuario a = new ModelUsuario();
         int codigo = (int) (JTConsulta.getValueAt(JTConsulta.getSelectedRow(), 0));
 
-         String senhaOriginal = txtAlterarusuarioSenha.getText();
-        
-       
-        
+        String senhaOriginal = txtAlterarusuarioSenha.getText();
+
         a.setId(codigo);
 
         a.setNome(txtAlterarusuarioNome.getText());
@@ -220,59 +218,65 @@ public class jdAlterarDados extends javax.swing.JDialog {
 
     }//GEN-LAST:event_txtAlterarusuarioPapelFocusLost
 
-
+    boolean a = true;
+    boolean b = true;
+    boolean c = true;
+    boolean d = true;
+    boolean e = true;
 
     private void txtAlterarusuarioNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlterarusuarioNomeKeyReleased
         // TODO add your handling code here:
-  btnEnable("[a-zA-Z]+", txtAlterarusuarioNome);
-      
+        a = btnEnable("[a-zA-Z]+", txtAlterarusuarioNome);
+        enable();
     }//GEN-LAST:event_txtAlterarusuarioNomeKeyReleased
 
     private void txtAlterarusuarioPapelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlterarusuarioPapelKeyReleased
         // TODO add your handling code here:
-        btnEnable("[a-zA-Z]+", txtAlterarusuarioPapel);
+        b = btnEnable("[a-zA-Z]+", txtAlterarusuarioPapel);
+        enable();
     }//GEN-LAST:event_txtAlterarusuarioPapelKeyReleased
 
     private void txtAlterarusuarioEmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlterarusuarioEmailKeyReleased
-        // TODO add your handling code here:
-     
-       if(txtAlterarusuarioEmail.getText().isEmpty()){
-           jbAlterar.setEnabled(false);
-       }else{
-           jbAlterar.setEnabled(true);
-       }
+
+        d = !txtAlterarusuarioEmail.getText().isEmpty();
+        enable();
     }//GEN-LAST:event_txtAlterarusuarioEmailKeyReleased
 
     private void txtAlterarusuarioSenhaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlterarusuarioSenhaKeyReleased
         // TODO add your handling code here:
-       if(txtAlterarusuarioSenha.getText().isEmpty()){
-           jbAlterar.setEnabled(false);
-       }else{
-           jbAlterar.setEnabled(true);
-       }
-        
+        e = !txtAlterarusuarioSenha.getText().isEmpty();
 
+        enable();
     }//GEN-LAST:event_txtAlterarusuarioSenhaKeyReleased
 
     private void txtAlterarusuarioTelefoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlterarusuarioTelefoneKeyReleased
         // TODO add your handling code here:
-          btnEnable("[0-9]+", txtAlterarusuarioTelefone);
+        c = btnEnable("[0-9]+", txtAlterarusuarioTelefone);
+        enable();
     }//GEN-LAST:event_txtAlterarusuarioTelefoneKeyReleased
 
-   private void btnEnable(String regex, JTextField abc) {
+    private boolean btnEnable(String regex, JTextField abc) {
         String tx = abc.getText();
         if (tx.matches(regex)) {
             abc.setForeground(Color.black);
-            jbAlterar.setEnabled(true);
+            return true;
 
         } else {
             abc.setForeground(Color.red);
             abc.requestFocus();
-            jbAlterar.setEnabled(false);
+            return false;
         }
     }
 
-    
+    @Override
+    public void enable() {
+        if (a && b && c && d && e) {
+            jbAlterar.setEnabled(true);
+        } else {
+            jbAlterar.setEnabled(false);
+        }
+
+    }
 
     /**
      * @param args the command line arguments
