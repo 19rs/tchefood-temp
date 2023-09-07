@@ -121,6 +121,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtAlterarusuarioSenha">
       <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtAlterarusuarioSenhaFocusGained"/>
         <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtAlterarusuarioSenhaKeyReleased"/>
       </Events>
       <AuxValues>

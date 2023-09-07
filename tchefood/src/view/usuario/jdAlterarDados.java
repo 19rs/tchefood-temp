@@ -20,6 +20,12 @@ import static view.usuario.jdGerenciarUsuario.JTConsulta;
  */
 public class jdAlterarDados extends javax.swing.JDialog {
 
+    private boolean a = true;
+    private boolean b = true;
+    private boolean c = true;
+    private boolean d = true;
+    private boolean e = true;
+
     /**
      * Creates new form jdAlterarDados
      */
@@ -78,6 +84,11 @@ public class jdAlterarDados extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Nova Senha:");
 
+        txtAlterarusuarioSenha.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtAlterarusuarioSenhaFocusGained(evt);
+            }
+        });
         txtAlterarusuarioSenha.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtAlterarusuarioSenhaKeyReleased(evt);
@@ -218,20 +229,17 @@ public class jdAlterarDados extends javax.swing.JDialog {
 
     }//GEN-LAST:event_txtAlterarusuarioPapelFocusLost
 
-    boolean a = true;
-    boolean b = true;
-    boolean c = true;
-    boolean d = true;
-    boolean e = true;
 
     private void txtAlterarusuarioNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlterarusuarioNomeKeyReleased
         // TODO add your handling code here:
+
         a = btnEnable("[a-zA-Z]+", txtAlterarusuarioNome);
         enable();
     }//GEN-LAST:event_txtAlterarusuarioNomeKeyReleased
 
     private void txtAlterarusuarioPapelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlterarusuarioPapelKeyReleased
         // TODO add your handling code here:
+
         b = btnEnable("[a-zA-Z]+", txtAlterarusuarioPapel);
         enable();
     }//GEN-LAST:event_txtAlterarusuarioPapelKeyReleased
@@ -244,16 +252,21 @@ public class jdAlterarDados extends javax.swing.JDialog {
 
     private void txtAlterarusuarioSenhaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlterarusuarioSenhaKeyReleased
         // TODO add your handling code here:
+
         e = !txtAlterarusuarioSenha.getText().isEmpty();
 
         enable();
     }//GEN-LAST:event_txtAlterarusuarioSenhaKeyReleased
 
     private void txtAlterarusuarioTelefoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAlterarusuarioTelefoneKeyReleased
-        // TODO add your handling code here:
         c = btnEnable("[0-9]+", txtAlterarusuarioTelefone);
         enable();
     }//GEN-LAST:event_txtAlterarusuarioTelefoneKeyReleased
+
+    private void txtAlterarusuarioSenhaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtAlterarusuarioSenhaFocusGained
+        // TODO add your handling code here:
+        e = false;
+    }//GEN-LAST:event_txtAlterarusuarioSenhaFocusGained
 
     private boolean btnEnable(String regex, JTextField abc) {
         String tx = abc.getText();

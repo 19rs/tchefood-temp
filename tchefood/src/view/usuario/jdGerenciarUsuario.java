@@ -148,28 +148,25 @@ public class jdGerenciarUsuario extends javax.swing.JDialog {
 
     private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
 
-        //exclui linha do banco de dados
-        int codigo = (int) (JTConsulta.getValueAt(JTConsulta.getSelectedRow(), 0));
-        //excluir linha da tabela
-        ((DefaultTableModel) JTConsulta.getModel()).removeRow(JTConsulta.getSelectedRow());
-
-        String nome;
         try {
-            if (isIdValido(codigo)) {
-                ModelUsuario a = new ModelUsuario();
-                a.setId(codigo);
-                nome = DAO.DAOUsuario.nomeUsuario(codigo);
-                DAO.DAOUsuario.deletar(a);
-                JOptionPane.showMessageDialog(this, "Excluido com Sucesso " + nome);
-
-            } else {
-                System.err.println("Nao encontrado");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(jdGerenciarUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+            //exclui linha do banco de dados
+            int codigo = (int) (JTConsulta.getValueAt(JTConsulta.getSelectedRow(), 0));
+            //excluir linha da tabela
+            ((DefaultTableModel) JTConsulta.getModel()).removeRow(JTConsulta.getSelectedRow());
+            
+            String nome;
+            
+            
+            ModelUsuario a = new ModelUsuario();
+            a.setId(codigo);
+            nome = DAO.DAOUsuario.nomeUsuario(codigo);
+            DAO.DAOUsuario.deletar(a);
+            JOptionPane.showMessageDialog(this, "Excluido com Sucesso " + nome);
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(jdGerenciarUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+     
 
 
     }//GEN-LAST:event_jbExcluirActionPerformed
@@ -188,7 +185,7 @@ public class jdGerenciarUsuario extends javax.swing.JDialog {
         String telefone = (String) JTConsulta.getValueAt(selectedRowIndex, 5);
         txtAlterarusuarioNome.setText(nome);
         txtAlterarusuarioEmail.setText(email);
-        txtAlterarusuarioSenha.setText(null);
+        txtAlterarusuarioSenha.requestFocus();
         txtAlterarusuarioPapel.setText(papel);
         txtAlterarusuarioTelefone.setText(telefone);
 
@@ -245,7 +242,7 @@ public class jdGerenciarUsuario extends javax.swing.JDialog {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         //</editor-fold>
-      
+
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {

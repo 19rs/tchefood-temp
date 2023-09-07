@@ -22,6 +22,7 @@ import org.jdesktop.swingx.prompt.PromptSupport;
  */
 public class jdcadastrarUsuario extends javax.swing.JDialog {
 
+    private final boolean[] arr = new boolean[5];
 
     /**
      * Creates new form jdcadastrarUsuario
@@ -29,6 +30,7 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
     public jdcadastrarUsuario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+
     }
 
     /**
@@ -208,31 +210,24 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    public static String Cripto(String senhaOriginal) throws NoSuchAlgorithmException{
-             MessageDigest md;
-              md = MessageDigest.getInstance("MD5");
-            BigInteger hash = new BigInteger(1,md.digest(senhaOriginal.getBytes()));
-            String senhaCripto = hash.toString(16);
-            return senhaCripto;
+    public static String Cripto(String senhaOriginal) throws NoSuchAlgorithmException {
+        MessageDigest md;
+        md = MessageDigest.getInstance("MD5");
+        BigInteger hash = new BigInteger(1, md.digest(senhaOriginal.getBytes()));
+        String senhaCripto = hash.toString(16);
+        return senhaCripto;
     }
-    
+
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
-        // TODO add your handling code here:
-           
-         String senhaOriginal = txtCadastrarusuarioSenha.getText();
-        
-        
-        
-  
-       
+        try {
+            // TODO add your handling code here:
+
+            String senhaOriginal = txtCadastrarusuarioSenha.getText();
+
             ModelUsuario a = new ModelUsuario();
             a.setNome(txtCadastrarusuarioNome.getText());
             a.setEmail(txtCadastrarusuarioEmail.getText());
-        try {
             a.setSenha(Cripto(senhaOriginal));
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(jdcadastrarUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        }
             a.setPapel(txtCadastrarusuarioPapel.getText());
             a.setTelefone(txtCadastrarusuarioTelefone.getText());
 
@@ -243,10 +238,14 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
             } catch (SQLException | ClassNotFoundException ex) {
                 Logger.getLogger(jdcadastrarUsuario.class.getName()).log(Level.SEVERE, null, ex);
             }
-        
+
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(jdcadastrarUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
 
     }//GEN-LAST:event_jbSalvarActionPerformed
+
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -268,53 +267,53 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
     private void formInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_formInputMethodTextChanged
 
     }//GEN-LAST:event_formInputMethodTextChanged
-   private boolean b;
-   private boolean a;
-   private boolean c;
-   private boolean d;
-   private boolean e;
 
 
     private void txtCadastrarusuarioNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioNomeKeyReleased
 
-        a = adawd("[a-zA-Z]+", txtCadastrarusuarioNome);
+        arr[0] = adawd("[a-zA-Z]+", txtCadastrarusuarioNome);
+
         teste();
     }//GEN-LAST:event_txtCadastrarusuarioNomeKeyReleased
 
     private void txtCadastrarusuarioPapelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioPapelKeyReleased
         // TODO add your handling code here:
-        b = adawd("[a-zA-Z]+", txtCadastrarusuarioPapel);
+        arr[1] = adawd("[a-zA-Z]+", txtCadastrarusuarioPapel);
         teste();
     }//GEN-LAST:event_txtCadastrarusuarioPapelKeyReleased
 
     private void txtCadastrarusuarioEmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioEmailKeyReleased
         // TODO add your handling code here:
-        d = !txtCadastrarusuarioEmail.getText().isEmpty();
-          teste();
-        
+        arr[2] = !txtCadastrarusuarioEmail.getText().isEmpty();
+        teste();
+
     }//GEN-LAST:event_txtCadastrarusuarioEmailKeyReleased
 
     private void txtCadastrarusuarioSenhaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioSenhaKeyReleased
         // TODO add your handling code here:
-       e = !txtCadastrarusuarioSenha.getText().isEmpty();
-         teste();
+        arr[3] = !txtCadastrarusuarioSenha.getText().isEmpty();
+        teste();
     }//GEN-LAST:event_txtCadastrarusuarioSenhaKeyReleased
 
     private void txtCadastrarusuarioTelefoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCadastrarusuarioTelefoneKeyReleased
-       
-               c = adawd("[0-9]+", txtCadastrarusuarioTelefone);
+
+        arr[4] = adawd("[0-9]+", txtCadastrarusuarioTelefone);
         teste();
-        
-        
+
+
     }//GEN-LAST:event_txtCadastrarusuarioTelefoneKeyReleased
 
     private void teste() {
-        if (a && b && c && d && e) {
-            jbSalvar.setEnabled(true);
-        } else {
-            jbSalvar.setEnabled(false);
-        }
+        for (boolean b : arr) {
+            if (b) {
+                jbSalvar.setEnabled(true);
 
+            } else {
+                jbSalvar.setEnabled(false);
+                break;
+            }
+
+        }
     }
 
     private boolean adawd(String regex, JTextField abc) {
@@ -327,7 +326,6 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
             abc.setForeground(Color.red);
             abc.requestFocus();
             return false;
-
         }
 
     }
