@@ -86,7 +86,7 @@ public class ItensPedidoDAO {
     }
 
 
-    public static ArrayList<ModelItensPedido> consultar() {
+    public static ArrayList<ModelItensPedido> consultar(String pesquisa) {
         try {
             ConexaoMYSQL conexaoMYSQL = new ConexaoMYSQL();
             Connection con = conexaoMYSQL.obterConexao();
